@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   label: {
-    fontSize: 15,
+    fontSize: 16,
     fontFamily: 'Poppins-SemiBold',
     color: '#274871',
     marginBottom: 2,
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: 'Poppins-Regular',
     marginBottom: 15,
     borderWidth: 1,
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-SemiBold',
   },
   signInText: {
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: 'Poppins-Regular',
     color: '#00000',
   },
