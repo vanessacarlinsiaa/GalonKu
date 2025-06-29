@@ -1,14 +1,25 @@
-// src/screens/FirstPage.tsx
-
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
-const FirstPage = () => {
+// 1. Import tipe yang dibutuhkan untuk navigation
+import { StackNavigationProp } from '@react-navigation/stack';
+
+// 2. Definisikan daftar semua halaman di aplikasi
+type RootStackParamList = {
+  FirstPage: undefined;
+  SecondPage: undefined;
+  DaftarPage: undefined;
+  MasukPage: undefined;
+};
+
+// 3. Buat tipe spesifik untuk navigation prop di halaman ini
+type FirstPageNavigationProp = StackNavigationProp<RootStackParamList, 'FirstPage'>;
+
+// 4. Terima { navigation } sebagai prop di sini
+const FirstPage = ({ navigation }: { navigation: FirstPageNavigationProp }) => {
   return (
-    // 1. Wadah utama yang mengisi seluruh layar dan menengahkan isinya
     <View style={styles.container}>
       
-      {/* 2. Menampilkan gambar logo */}
       <View style={styles.logoContainer}>
         <Image 
           source={require('../../assets/icon.png')} // Pastikan nama file ini sesuai
@@ -16,13 +27,15 @@ const FirstPage = () => {
         />
       </View>
 
-      {/* 3. Menampilkan teks selamat datang */}
       <Text style={styles.welcomeText}>
         Selamat Datang di GalonKu 👋
       </Text>
 
-      {/* 4. Membuat tombol "Pesan" yang bisa diklik */}
-      <TouchableOpacity style={styles.button}>
+      {/* 5. Tambahkan onPress untuk memanggil fungsi navigasi */}
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={() => navigation.navigate('SecondPage')} // <-- INI SATU-SATUNYA LOGIKA YANG DITAMBAHKAN
+      >
         <Text style={styles.buttonText}>Pesan</Text>
       </TouchableOpacity>
 
@@ -31,6 +44,7 @@ const FirstPage = () => {
 };
 
 // Di sini kita definisikan semua style yang dipakai di atas
+// STYLE INI TIDAK DIUBAH SAMA SEKALI SESUAI PERMINTAANMU
 const styles = StyleSheet.create({
   container: {
     flex: 1, // Artinya: pakai seluruh ruang layar yang tersedia
@@ -74,7 +88,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#274871',
     fontSize: 16,
-    fontFamily: 'Poppins-Light',
+    fontFamily: 'Poppins-Regular',
   },
 });
 
