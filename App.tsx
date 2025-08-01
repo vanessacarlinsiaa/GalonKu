@@ -1,40 +1,51 @@
-// App.tsx
+import React, { useEffect, useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFonts } from "expo-font";
 
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { useFonts } from 'expo-font'; // <-- 1. IMPORT useFonts
+import FirstPage from "./src/screens/auth/FirstPage";
+import SecondPage from "./src/screens/auth/SecondPage";
+import DaftarPage from "./src/screens/auth/DaftarPage";
+import MasukPage from "./src/screens/auth/MasukPage";
 
-import FirstPage from './src/screens/FirstPage';
-import SecondPage from './src/screens/SecondPage';
-import DaftarPage from './src/screens/DaftarPage';
-import MasukPage from './src/screens/MasukPage';
+// 1. Tambahkan halaman Home (nanti kita buat)
+import HomePage from "./src/screens/home/HomePage";
 
 const Stack = createStackNavigator();
 
 const App = () => {
-  // 2. Muat font di sini. Nama di kiri ('Poppins-Regular') adalah nama yang akan kita pakai di style.
   const [fontsLoaded] = useFonts({
-    'Poppins-Regular': require('./assets/fonts/Poppins-Regular.ttf'),
-    'Poppins-SemiBold': require('./assets/fonts/Poppins-SemiBold.ttf'),
+    "Poppins-Regular": require("./assets/fonts/Poppins-Regular.ttf"),
+    "Poppins-SemiBold": require("./assets/fonts/Poppins-SemiBold.ttf"),
   });
 
-  // 3. Jangan tampilkan apapun sampai font selesai dimuat
-  if (!fontsLoaded) {
-    return null; // Atau kamu bisa tampilkan loading screen di sini
+  const [initialRoute, setInitialRoute] = useState<null | string>(null);
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+      setInitialRoute(isLoggedIn === "true" ? "HomePage" : "FirstPage");
+    };
+
+    checkLoginStatus();
+  }, []);
+
+  if (!fontsLoaded || !initialRoute) {
+    return null;
   }
 
-  // 4. Setelah font siap, baru tampilkan aplikasi
   return (
     <NavigationContainer>
-      <Stack.Navigator 
-        initialRouteName="FirstPage"
-        screenOptions={{ headerShown: false }} 
+      <Stack.Navigator
+        initialRouteName={initialRoute}
+        screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="FirstPage" component={FirstPage} />
         <Stack.Screen name="SecondPage" component={SecondPage} />
         <Stack.Screen name="DaftarPage" component={DaftarPage} />
         <Stack.Screen name="MasukPage" component={MasukPage} />
+        <Stack.Screen name="HomePage" component={HomePage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
